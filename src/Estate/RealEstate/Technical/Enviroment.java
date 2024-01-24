@@ -72,41 +72,51 @@ public class Enviroment {
 
     public void run(){
 
+
         Apartment ap3=new Apartment(123);
         Person p1=new Person("Kamil","Nowak",44,Nation.DEUTSCH);
 
+        personSet.add(p1);
         estate.put(ap3,p1);
         System.out.println();
-        for(Map.Entry entryset : estate.entrySet()){
-            System.out.println(entryset);
-        }
+       // for(Map.Entry entryset : estate.entrySet()){
+         //   System.out.println(entryset);
+       // }
            //Set<Room> roomSet=new HashSet<>();
            //Set<Person>personSet=new HashSet<>();
+        Scanner scan=new Scanner(System.in);
+        Person user=null;
+        int choice=0;
 
            while(true){
 
-               System.out.println();
-               System.out.println(" wybierz odpowiednia cyfre ");
-               System.out.println("  1. Pokaz wszystkie osoby ");
-               System.out.println("  2. Pokaz wszystkie mieszkania");
-               System.out.println("  3. Pokaz wszystkie garaze");
-               System.out.println("  4. Pokaz wolne mieszkania");
-               System.out.println("  5. Wynajmij mieszkanie");
-               System.out.println("  6. Zwolnij mieszkanie");
-               System.out.println("  7. Pokaz lokatorow w mieszkaniu");
-               System.out.println("  8. Dodaj lokatora do mieszkania");
-               System.out.println("  9. Usun lokatora z mieszkanaia ");
-               System.out.println("  10. Pokaz wolne garaze");
-               System.out.println("  11. Pokaz zajete garaze");
-               System.out.println("  12. Wynajmij garaz");
-               System.out.println("  13. Zwolnij garaz");
-               System.out.println("  14. Pokaz wszystkie przedmioty w garazu");
-               System.out.println("  15. Dodaj przedmiot do garazu");
-               System.out.println("  16. Usun przedmiot z garazu");
-               System.out.println("  17. Pokaz wszyskie nieruchomosci wynajmowane przez osobe");
-               System.out.println("  18. Pokaz wszystkie przedmioty danej osoby");
+               if(user==null){
+                   System.out.println(" Aby prawidlowo korzystac z programu musisz byc zalogowany !");
+                   choice=1;
+               }else {
 
-               System.out.println("  19. EXIT");
+                   System.out.println();
+                   System.out.println(" wybierz odpowiednia cyfre ");
+                   System.out.println("  1. Pokaz wszystkie osoby / Zaloguj sie ");
+                   System.out.println("  2. Pokaz wszystkie mieszkania");
+                   System.out.println("  3. Pokaz wszystkie garaze");
+                   System.out.println("  4. Pokaz wolne mieszkania");
+                   System.out.println("  5. Wynajmij mieszkanie");
+                   System.out.println("  6. Zwolnij mieszkanie");
+                   System.out.println("  7. Pokaz lokatorow w mieszkaniu");
+                   System.out.println("  8. Dodaj lokatora do mieszkania");
+                   System.out.println("  9. Usun lokatora z mieszkanaia ");
+                   System.out.println("  10. Pokaz wolne garaze");
+                   System.out.println("  11. Pokaz zajete garaze");
+                   System.out.println("  12. Wynajmij garaz");
+                   System.out.println("  13. Zwolnij garaz");
+                   System.out.println("  14. Pokaz wszystkie przedmioty w garazu");
+                   System.out.println("  15. Dodaj przedmiot do garazu");
+                   System.out.println("  16. Usun przedmiot z garazu");
+                   System.out.println("  17. Pokaz wszyskie nieruchomosci wynajmowane przez osobe");
+                   System.out.println("  18. Pokaz wszystkie przedmioty danej osoby");
+
+                   System.out.println("  19. EXIT");
 
 
                // M E N U
@@ -123,30 +133,58 @@ public class Enviroment {
 // wyjęcia przedmiotów lub pojazdów.
 // wykonania polecenia zapisującego aktualny stan osiedla do pliku
 
-        Scanner scan=new Scanner(System.in);
 
-    int choice=scan.nextInt();
+
+        choice=scan.nextInt();
+               }
+
 
     switch (choice){
 
 
 
-        case   1  ->{
+        case   1  -> {
+            System.out.println();
+            System.out.println(" Lista osob ");
+            System.out.println();
+            int i = 1;
 
-           for(Person p:personSet) {
-               System.out.println(p);}
+            for (Person p : personSet) {
+                System.out.println((i++) + ". " + p);
+            }
+            System.out.println();
+            System.out.println("Zaloguj sie ,podajac pesel ");
+            int podajPesel= scan.nextInt();
+            for (Person p : personSet) {
+                if(p.getPesel()==podajPesel){
+                    user=p;
+                }
+            }
+            System.out.println();
+            if(user==null){
+                System.out.println(" UWAGA ! , nie jestes zalogowany , sprobuj ponownie !");
+            }else {
+                System.out.println(" Jestes zalogowany jako : " + user);
+            }
         }
 
         case  2 ->{
             for(Room r:roomSet){
+                if(r.getClass().equals(Apartment.class))
                 System.out.println(r);
             }
+
+            System.out.println(user);
         }
 
-        case 3 ->{}
+        case 3 ->{  for(Room r:roomSet){
+            if(r.getClass().equals(ParkingPlace.class))
+                System.out.println(r);
+        }}
 
         case 4->{}
         case 5->{
+
 
         }
         case 6->{}

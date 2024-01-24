@@ -5,10 +5,10 @@ import Estate.RealEstate.Rooms.Room;
 
 public class Person {
 
-    String name;
-    String surname;
-    int pesel;
-    Nation nationality;
+    private String name;
+    private String surname;
+    private int pesel;
+    private Nation nationality;
 
     File[]files;
     Room[]rooms;
@@ -34,5 +34,21 @@ public class Person {
         return name + " " + surname + " " +
                 " pesel " + pesel +
                 " nation " + nationality;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public int getPesel() {
+        return pesel;
+    }
+
+    public Nation getNationality() {
+        return nationality;
     }
 }
