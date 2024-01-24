@@ -137,7 +137,7 @@ public class Enviroment {
 
         choice=scan.nextInt();
                }
-
+               System.out.println(" ZMIANY!!");
 
     switch (choice){
 
