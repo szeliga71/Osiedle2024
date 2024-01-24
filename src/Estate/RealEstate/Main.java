@@ -1,14 +1,6 @@
 package Estate.RealEstate;
 
-import Estate.RealEstate.Items.Veihcle.Paliwo;
-import Estate.RealEstate.Items.Veihcle.Samochod_Miejski;
-import Estate.RealEstate.Rooms.Apartment;
-import Estate.RealEstate.Rooms.ParkingPlace;
-import Estate.RealEstate.Rooms.Room;
 import Estate.RealEstate.Technical.Enviroment;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class Main {
     public static void main(String[] args) {

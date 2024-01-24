@@ -1,7 +1,5 @@
 package Estate.RealEstate.Rooms;
 
-import Estate.RealEstate.Rooms.Apartment;
-
 import java.util.ArrayList;
 import java.util.List;
 

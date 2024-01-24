@@ -3,9 +3,6 @@ package Estate.RealEstate;
 import Estate.RealEstate.Items.Item;
 import Estate.RealEstate.Rooms.Room;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Person {
 
     String name;

@@ -1,7 +1,6 @@
 package Estate.RealEstate.Items.Veihcle;
 
 import Estate.RealEstate.Items.Item;
-import Estate.RealEstate.Items.Veihcle.Paliwo;
 
 public abstract class Vehicle extends Item {
 
