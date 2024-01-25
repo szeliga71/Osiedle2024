@@ -146,12 +146,12 @@ public class Enviroment {
 
         case   1  -> {
             System.out.println();
-            System.out.println(" Lista osob ");
-            System.out.println();
-            int i = 1;
+            System.out.println(" Lista osob +'\n'");
+
+            int licznik = 1;
 
             for (Person p : personSet) {
-                System.out.println((i++) + ". " + p);
+                System.out.println((licznik++) + ". " + p);
             }
             System.out.println();
             System.out.println("Zaloguj sie ,podajac pesel ");
