@@ -3,6 +3,9 @@ package Estate.RealEstate;
 import Estate.RealEstate.Items.Item;
 import Estate.RealEstate.Rooms.Room;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Person {
 
     private String name;
@@ -10,8 +13,8 @@ public class Person {
     private int pesel;
     private Nation nationality;
 
-    File[]files;
-    Room[]rooms;
+    private File[]files;
+    private List<Room> rooms;
     //List<File> files;
     //List<Room>rooms;
 
@@ -22,7 +25,7 @@ public class Person {
         this.nationality = nationality;
 
         files=new File[3];
-        rooms=new Room[5];
+        rooms=new ArrayList<>();
     }
 
     public void addPerson(Person person){}
@@ -51,4 +54,14 @@ public class Person {
     public Nation getNationality() {
         return nationality;
     }
+
+    public File[] getFiles() {
+        return files;
+    }
+
+    public List<Room> getRooms() {
+        return rooms;
+    }
+
+
 }

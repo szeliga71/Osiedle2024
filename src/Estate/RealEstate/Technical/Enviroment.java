@@ -12,13 +12,13 @@ import java.util.*;
 
 public class Enviroment {
 
-    private Set<Room> roomSet;
+
     private Set<Person>personSet;
     private Map<Room,Person>estate;
 
     public Enviroment() {
 
-        roomSet=new HashSet<>();
+
         personSet=new HashSet<>();
         estate=new HashMap<>();
 
@@ -26,36 +26,39 @@ public class Enviroment {
 
         // dane do pracy
         Person person = new Person("Jan", "Kowalski", 43, Nation.POLISH);
+        Person p2=new Person("Bronislaw","Cieslak",45,Nation.FRENCH);
 
         Apartment ap=new Apartment(120);
         Apartment ap1=new Apartment(159);
+        Apartment ap2 =new Apartment(220);
         ParkingPlace pp1=new ParkingPlace(30);
+        ParkingPlace pp2=new ParkingPlace(35);
         Samochod_Miejski sm1=new Samochod_Miejski(6,"Suzuki","Swift", Paliwo.BENZYNA,1000,true,"White");
 
 
         // tu automat ladowanie z pliku
 
-        roomSet.add(ap);
-        roomSet.add(ap1);
-        roomSet.add(pp1);
+
         personSet.add(person);
+        personSet.add(p2);
         person.addThingOrCar(sm1);
 
+        estate.put(ap,null);
+        estate.put(ap1,null);
+        estate.put(ap2,null);
+        estate.put(pp1,null);
+
 
 
     }
 
-    public void setRoomSet(Set<Room> roomSet) {
-        this.roomSet = roomSet;
-    }
+
 
     public void setPersonSet(Set<Person> personSet) {
         this.personSet = personSet;
     }
 
-    public Set<Room> getRoomSet() {
-        return roomSet;
-    }
+
 
     public Set<Person> getPersonSet() {
         return personSet;
@@ -79,9 +82,9 @@ public class Enviroment {
         personSet.add(p1);
         estate.put(ap3,p1);
         System.out.println();
-       // for(Map.Entry entryset : estate.entrySet()){
-         //   System.out.println(entryset);
-       // }
+        //for(Map.Entry entryset : estate.entrySet()){
+          //  System.out.println(entryset);
+        //}
            //Set<Room> roomSet=new HashSet<>();
            //Set<Person>personSet=new HashSet<>();
         Scanner scan=new Scanner(System.in);
@@ -101,14 +104,14 @@ public class Enviroment {
                    System.out.println("  2. Pokaz wszystkie mieszkania");
                    System.out.println("  3. Pokaz wszystkie garaze");
                    System.out.println("  4. Pokaz wolne mieszkania");
-                   System.out.println("  5. Wynajmij mieszkanie");
+                   //System.out.println("  5. Wynajmij mieszkanie");
                    System.out.println("  6. Zwolnij mieszkanie");
                    System.out.println("  7. Pokaz lokatorow w mieszkaniu");
                    System.out.println("  8. Dodaj lokatora do mieszkania");
                    System.out.println("  9. Usun lokatora z mieszkanaia ");
                    System.out.println("  10. Pokaz wolne garaze");
                    System.out.println("  11. Pokaz zajete garaze");
-                   System.out.println("  12. Wynajmij garaz");
+                   //System.out.println("  12. Wynajmij garaz");
                    System.out.println("  13. Zwolnij garaz");
                    System.out.println("  14. Pokaz wszystkie przedmioty w garazu");
                    System.out.println("  15. Dodaj przedmiot do garazu");
@@ -134,9 +137,13 @@ public class Enviroment {
 // wykonania polecenia zapisującego aktualny stan osiedla do pliku
 
 
-
+        try{
         choice=scan.nextInt();
 
+               }
+        catch(InputMismatchException e){
+        System.out.println(" nie podales odpowiedniej cyfry !");
+        scan.next();}
                }
 
 
@@ -145,8 +152,9 @@ public class Enviroment {
 
 
         case   1  -> {
+            int podajPesel=0;
             System.out.println();
-            System.out.println(" Lista osob +'\n'");
+            System.out.println(" Lista osob \n");
 
             int licznik = 1;
 
@@ -155,7 +163,14 @@ public class Enviroment {
             }
             System.out.println();
             System.out.println("Zaloguj sie ,podajac pesel ");
-            int podajPesel= scan.nextInt();
+
+            try {
+                podajPesel = scan.nextInt();
+            }catch(InputMismatchException e){
+                System.out.println(" prosze podac prawidlowy pesel !");
+                scan.next();
+            }
+
             for (Person p : personSet) {
                 if(p.getPesel()==podajPesel){
                     user=p;
@@ -170,21 +185,77 @@ public class Enviroment {
         }
 
         case  2 ->{
-            for(Room r:roomSet){
-                if(r.getClass().equals(Apartment.class))
-                System.out.println(r);
+
+
+            for(Map.Entry<Room,Person>entry:estate.entrySet()){
+                if(entry.getKey().getClass().equals(Apartment.class)){
+                System.out.println(entry.getKey());}
             }
 
-            System.out.println(user);
+
         }
 
-        case 3 ->{  for(Room r:roomSet){
-            if(r.getClass().equals(ParkingPlace.class))
-                System.out.println(r);
-        }}
+        case 3 ->{
 
-        case 4->{}
+            for(Map.Entry<Room,Person>entry:estate.entrySet()){
+                if(entry.getKey().getClass().equals(ParkingPlace.class)){
+                    System.out.println(entry.getKey());}
+            }
+        }
+
+        case 4->{
+            System.out.println(" lista wolnych mieszkan ");
+            System.out.println(" Jestes zalogowany jako " + user);
+            int licznik=0;
+            int wybor=0;
+
+
+            for(Map.Entry<Room,Person>entry:estate.entrySet()){
+
+                if((entry.getKey().getClass().equals(Apartment.class))&&(entry.getValue()==null)){
+                    System.out.println((++licznik)+". "+entry.getKey());
+                }
+                if(licznik==0){
+                    System.out.println(" brak wolnych mieszkan na wynajem !");
+                    }
+            }
+
+
+            try{
+                System.out.println(" podaj numer pod ktorym znajduje sie mieszkanie ktore chcesz wynajac ");
+                wybor=scan.nextInt();
+
+                System.out.println(" wybrales numer "+wybor);}
+
+            catch(InputMismatchException e){
+                System.out.println(" nie podales odpowiedniego numeru !!!");
+            scan.next();}
+
+            licznik=0;
+
+
+            for(Map.Entry<Room,Person>entry:estate.entrySet()){
+                if((entry.getKey().getClass().equals(Apartment.class))&&(entry.getValue()==null)){
+                    licznik++;
+                    if(licznik==wybor){
+                    estate.put(entry.getKey(),user);
+                    entry.getKey().setPrimaryTenant(user);
+                    user.getRooms().add(entry.getKey());
+                    System.out.println( user +" wynaja "+ entry.getKey());
+
+
+                }
+                }
+            }
+
+
+            System.out.println(" taki wynajem "+ user.getRooms());
+
+
+        }
+
         case 5->{
+
 
 
         }
@@ -192,7 +263,12 @@ public class Enviroment {
         case 7->{}
         case 8->{}
         case 9->{}
-        case 10->{}
+        case 10->{
+            for(Map.Entry<Room,Person>entry:estate.entrySet()){
+            if((entry.getKey().getClass().equals(ParkingPlace.class))&&(entry.getValue()==null)){
+                System.out.println(entry.getKey());}
+            }
+        }
         case 11->{}
         case 12->{}
         case 13->{}

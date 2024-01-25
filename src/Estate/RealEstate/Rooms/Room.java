@@ -34,6 +34,10 @@ public abstract class Room {
         this.area = area;
     }
 
+    public void setPrimaryTenant(Person primaryTenant) {
+        this.primaryTenant = primaryTenant;
+    }
+
     @Override
     public String toString() {
         return " o identyfikatorze " + id+" "+ " i  powierzchni "

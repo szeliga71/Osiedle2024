@@ -16,6 +16,9 @@ public class Apartment extends Room {
         super.setArea(area);
 
         personsInApartment=new ArrayList<>();
+        if(super.primaryTenant!=null){
+            personsInApartment.add(primaryTenant);
+        }
     }
 
     @Override
