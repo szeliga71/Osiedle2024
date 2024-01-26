@@ -262,7 +262,49 @@ public class Enviroment {
 
 
         }
-        case 6->{}
+        case 6->{
+
+            int wybor=0;
+
+            System.out.println(" Zwolnij mieszkanie Uzytkownik "+ user);
+
+            for(Map.Entry<Room,Person>entry:estate.entrySet()){
+                if((entry.getValue()==user)&&(entry.getKey().getClass()==Apartment.class)){
+                    System.out.println((++licznik)+". "+entry.getKey());
+                }}
+            if(licznik==0){
+                System.out.println(" Nie posiadasz wynajetych mieszkan !");
+            }
+
+            try{
+                System.out.println(" podaj numer pod ktorym znajduje sie mieszkanie ktore chcesz zwolnic ");
+                wybor=scan.nextInt();
+
+                System.out.println(" wybrales numer "+wybor);}
+
+            catch(InputMismatchException e){
+                System.out.println(" nie podales odpowiedniego numeru !!!");
+                scan.next();}
+
+            licznik=0;
+
+
+            for(Map.Entry<Room,Person>entry:estate.entrySet()){
+                if((entry.getKey().getClass().equals(Apartment.class))){
+                    licznik++;
+                    if(licznik==wybor){
+                        estate.remove(entry.getKey());
+                        entry.getKey().setPrimaryTenant(null);
+                        user.getRooms().remove(entry.getKey());
+                        System.out.println( user +" zwolnil "+ entry.getKey());
+
+
+                    }
+                }
+            }
+
+
+        }
         case 7->{}
         case 8->{}
         case 9->{}
