@@ -87,11 +87,15 @@ public class Enviroment {
         //}
            //Set<Room> roomSet=new HashSet<>();
            //Set<Person>personSet=new HashSet<>();
+
         Scanner scan=new Scanner(System.in);
         Person user=null;
+
         int choice=0;
 
            while(true){
+
+               int licznik=0;
 
                if(user==null){
                    System.out.println(" Aby prawidlowo korzystac z programu musisz byc zalogowany !");
@@ -156,10 +160,10 @@ public class Enviroment {
             System.out.println();
             System.out.println(" Lista osob \n");
 
-            int licznik = 1;
+
 
             for (Person p : personSet) {
-                System.out.println((licznik++) + ". " + p);
+                System.out.println((++licznik) + ". " + p);
             }
             System.out.println();
             System.out.println("Zaloguj sie ,podajac pesel ");
@@ -189,7 +193,7 @@ public class Enviroment {
 
             for(Map.Entry<Room,Person>entry:estate.entrySet()){
                 if(entry.getKey().getClass().equals(Apartment.class)){
-                System.out.println(entry.getKey());}
+                System.out.println((++licznik)+". "+entry.getKey());}
             }
 
 
@@ -199,14 +203,13 @@ public class Enviroment {
 
             for(Map.Entry<Room,Person>entry:estate.entrySet()){
                 if(entry.getKey().getClass().equals(ParkingPlace.class)){
-                    System.out.println(entry.getKey());}
+                    System.out.println((++licznik)+". "+entry.getKey());}
             }
         }
 
         case 4->{
             System.out.println(" lista wolnych mieszkan ");
             System.out.println(" Jestes zalogowany jako " + user);
-            int licznik=0;
             int wybor=0;
 
 
@@ -214,11 +217,11 @@ public class Enviroment {
 
                 if((entry.getKey().getClass().equals(Apartment.class))&&(entry.getValue()==null)){
                     System.out.println((++licznik)+". "+entry.getKey());
-                }
+                }}
                 if(licznik==0){
                     System.out.println(" brak wolnych mieszkan na wynajem !");
-                    }
-            }
+                    break;}
+
 
 
             try{
@@ -266,7 +269,7 @@ public class Enviroment {
         case 10->{
             for(Map.Entry<Room,Person>entry:estate.entrySet()){
             if((entry.getKey().getClass().equals(ParkingPlace.class))&&(entry.getValue()==null)){
-                System.out.println(entry.getKey());}
+                System.out.println((++licznik)+". "+entry.getKey());}
             }
         }
         case 11->{}
@@ -275,7 +278,17 @@ public class Enviroment {
         case 14->{}
         case 15->{}
         case 16->{}
-        case 17->{}
+        case 17->{
+
+            for(Map.Entry<Room,Person>entry:estate.entrySet()){
+                if(entry.getValue()==user){
+                    System.out.println((++licznik)+". "+entry.getKey());
+                }}
+                if(licznik==0){
+                    System.out.println(" Nie posiadasz wynajetych mieszkan !");
+                }
+
+        }
         case 18->{}
         case 19->{System.exit(0);}
 
