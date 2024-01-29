@@ -207,6 +207,7 @@ public class Enviroment {
 
 
 
+
                     for (Map.Entry<Room, Person> entry : estate.entrySet()) {
                         if ((entry.getKey().getClass().equals(Apartment.class)) && (entry.getValue() == null)) {
                             ++licznik;
@@ -271,7 +272,6 @@ public class Enviroment {
 
 
                     for(Map.Entry<Room,Person>entry:estate.entrySet()){
-                        System.out.println(" dupa1");
                         if((entry.getKey().equals(Apartment.class))&&(entry.getValue()==user)){
                             ++licznik;}
 
@@ -292,7 +292,20 @@ public class Enviroment {
 
 
 
-                case 7 ->{}
+                case 7 ->{
+                    showOccupiedRooms(Apartment.class,user){
+                        wybor=wybor(scan);
+                        for(Map.Entry<Room,Person>entry:estate.entrySet()){
+                            if((entry.getKey().equals(Apartment.class))&&(entry.getValue()==user)){
+                                ++licznik;}
+
+                            if(licznik==wybor){
+                                apartment=(Apartment) entry.getKey();
+                                break;
+                            }
+                        }
+                    }
+                }
                 case 8 -> {
                 }
                 case 9 -> {
