@@ -7,7 +7,7 @@ import java.util.List;
 
 public class ParkingPlace extends Room {
 
-    List<Item>items;
+    private List<Item>items;
 
     public ParkingPlace(int area) {
         super.setArea(area);
@@ -21,5 +21,9 @@ public class ParkingPlace extends Room {
 
         return " Garaz "+ super.toString();
 
+    }
+
+    public List<Item> getItems() {
+        return items;
     }
 }

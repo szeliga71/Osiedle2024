@@ -5,6 +5,25 @@ import Estate.RealEstate.Person;
 import java.util.UUID;
 
 public abstract class Room {
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Room)) return false;
+
+        Room room = (Room) o;
+
+        if (getArea() != room.getArea()) return false;
+        if (!getId().equals(room.getId())) return false;
+        return getPrimaryTenant() != null ? getPrimaryTenant().equals(room.getPrimaryTenant()) : room.getPrimaryTenant() == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getArea();
+        result = 31 * result + getId().hashCode();
+        result = 31 * result + (getPrimaryTenant() != null ? getPrimaryTenant().hashCode() : 0);
+        return result;
+    }
 
     private int area;
     private UUID id;

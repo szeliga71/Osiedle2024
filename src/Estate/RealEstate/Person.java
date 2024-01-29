@@ -1,6 +1,8 @@
 package Estate.RealEstate;
 
 import Estate.RealEstate.Items.Item;
+import Estate.RealEstate.Rooms.Apartment;
+import Estate.RealEstate.Rooms.ParkingPlace;
 import Estate.RealEstate.Rooms.Room;
 
 import java.util.ArrayList;
@@ -14,7 +16,7 @@ public class Person {
     private Nation nationality;
 
     private File[]files;
-    private List<Room> rooms;
+    //private List<Room> rooms;
     //List<File> files;
     //List<Room>rooms;
 
@@ -25,12 +27,16 @@ public class Person {
         this.nationality = nationality;
 
         files=new File[3];
-        rooms=new ArrayList<>();
+        //rooms=new ArrayList<>();
     }
 
-    public void addPerson(Person person){}
+    public void addPerson(Person person, Apartment apartment){
+        apartment.getPersonsInApartment().add(person);
+    }
 
-    public void addThingOrCar(Item item){}
+    public void addThingOrCar(Item item, ParkingPlace parkingPlace){
+        parkingPlace.getItems().add(item);
+    }
 
     @Override
     public String toString() {
@@ -59,9 +65,9 @@ public class Person {
         return files;
     }
 
-    public List<Room> getRooms() {
-        return rooms;
-    }
+   // public List<Room> getRooms() {
+     //   return rooms;
+    //}
 
 
 }
