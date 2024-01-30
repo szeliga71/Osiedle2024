@@ -426,9 +426,53 @@ public class Enviroment {
 
                 }
                 case 11 -> {
+                    showOccupiedRooms(ParkingPlace.class,user);
+                    wybor=wybor(scan);
+
+
+                    for(Map.Entry<Room,Person>entry:estate.entrySet()){
+                        if((entry.getKey().equals(ParkingPlace.class))&&(entry.getValue()==user)){
+                            ++licznik;}
+
+                        if(licznik==wybor){
+                            parkingPlace=(ParkingPlace) entry.getKey();
+                            break;
+                        }
+                    }
+
+                    if(parkingPlace!=null) {
+                        //assert apartment != null;
+                        System.out.println(parkingPlace.getItems());
+                    }
+                    else {
+                        System.out.println("garaz jest pusty");
+                    }
                 }
-                case 12 -> {
+
+
+                case 12 -> {              showOccupiedRooms(ParkingPlace.class,user);
+
+                    wybor=wybor(scan);
+                    for(Map.Entry<Room,Person>entry:estate.entrySet()){
+                        if((entry.getKey().equals(ParkingPlace.class))&&(entry.getValue()==user)){
+                            ++licznik;}
+
+                        if(licznik==wybor){
+                            parkingPlace=(ParkingPlace) entry.getKey();
+                            break;
+                        }
+                    }
+                    licznik=0;
+//=======================================================================
+                    for(Item it:itemsGlobal){
+
+                        System.out.println(++licznik+". "+it);
+                    }
+
+
+//=========================================================================================================
                 }
+
                 case 13 -> {
                 }
                 case 14 -> {
