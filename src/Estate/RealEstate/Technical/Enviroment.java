@@ -220,7 +220,7 @@ public class Enviroment {
                             entry.getKey().setPrimaryTenant(user);
                             apartment.getPersonsInApartment().add(user);
 
-                            System.out.println(apartment.getPersonsInApartment());
+                            //System.out.println(apartment.getPersonsInApartment());
                             System.out.println(user + " wynaja " + entry.getKey());
 
                             break;
@@ -293,7 +293,8 @@ public class Enviroment {
 
 
                 case 7 ->{
-                    showOccupiedRooms(Apartment.class,user){
+                    showOccupiedRooms(Apartment.class,user);
+
                         wybor=wybor(scan);
                         for(Map.Entry<Room,Person>entry:estate.entrySet()){
                             if((entry.getKey().equals(Apartment.class))&&(entry.getValue()==user)){
@@ -304,9 +305,63 @@ public class Enviroment {
                                 break;
                             }
                         }
+                        licznik=0;
+
+                        for(Person p:personSet){
+
+                            System.out.println(++licznik+". "+p);
+                        }
+
+                    System.out.println(" podaj pesel wybranej osoby ");
+                        wybor=wybor(scan);
+
+                        for(Person p:personSet){
+                            if(wybor==p.getPesel()){
+                                temPerson=p;
+                            }
+                        }
+                        if((apartment!=null)&&(temPerson!=null)){
+                        user.addPerson(temPerson,apartment);}
+
                     }
-                }
+
                 case 8 -> {
+
+                    System.out.println( " usuwanie lokatora ");
+
+                    showOccupiedRooms(Apartment.class, user);
+
+                    wybor = wybor(scan);
+
+                    for (Map.Entry<Room, Person> entry : estate.entrySet()) {
+                        if ((entry.getKey().equals(Apartment.class)) && (entry.getValue() == user)) {
+                            ++licznik;
+                        }
+
+                        if (licznik == wybor) {
+                            apartment = (Apartment) entry.getKey();
+                            break;
+                        }
+                    }
+                    licznik = 0;
+
+                    for (Person p : personSet) {
+
+                        System.out.println(++licznik + ". " + p);
+                    }
+
+                    System.out.println(" podaj pesel wybranej osoby ");
+                    wybor = wybor(scan);
+
+                    for (Person p : personSet) {
+                        if (wybor == p.getPesel()) {
+                            temPerson = p;
+                        }
+                    }
+                    if ((apartment != null) && (temPerson != null)) {
+
+                        apartment.getPersonsInApartment().remove(temPerson);
+                    }
                 }
                 case 9 -> {
 
