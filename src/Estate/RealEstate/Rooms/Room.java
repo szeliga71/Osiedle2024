@@ -28,7 +28,7 @@ public abstract class Room {
     }
 
     private int area;
-    private UUID id;
+    private final UUID id;
 
     private LocalDate dateOfRent;
     private LocalDate dateOfLeave;
