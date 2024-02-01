@@ -2,6 +2,8 @@ package Estate.RealEstate.Rooms;
 
 import Estate.RealEstate.Person;
 
+import java.time.LocalDate;
+
 import java.util.UUID;
 
 public abstract class Room {
@@ -28,6 +30,24 @@ public abstract class Room {
     private int area;
     private UUID id;
 
+    private LocalDate dateOfRent;
+    private LocalDate dateOfLeave;
+
+    public LocalDate getDateOfRent() {
+        return dateOfRent;
+    }
+
+    public void setDateOfRent(LocalDate dateOfRent) {
+        this.dateOfRent = dateOfRent;
+    }
+
+    public LocalDate getDateOfLeave() {
+        return dateOfLeave;
+    }
+
+    public void setDateOfLeave(LocalDate dateOfLeave) {
+        this.dateOfLeave = dateOfLeave;
+    }
 
     Person primaryTenant;
 
