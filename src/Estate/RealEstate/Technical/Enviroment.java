@@ -1,8 +1,11 @@
 package Estate.RealEstate.Technical;
 
 import Estate.RealEstate.Items.Item;
+import Estate.RealEstate.Items.Thing;
+import Estate.RealEstate.Items.Veihcle.Amfibia;
 import Estate.RealEstate.Items.Veihcle.Paliwo;
 import Estate.RealEstate.Items.Veihcle.Samochod_Miejski;
+import Estate.RealEstate.Items.Veihcle.Samochod_Terenowy;
 import Estate.RealEstate.Nation;
 import Estate.RealEstate.Person;
 import Estate.RealEstate.Rooms.Apartment;
@@ -31,13 +34,33 @@ public class Enviroment {
         // dane do pracy
         Person p1 = new Person("Jan", "Kowalski", 43, Nation.POLISH);
         Person p2 = new Person("Bronislaw", "Cieslak", 45, Nation.FRENCH);
+        Person p3 = new Person("Kamil", "Nowak", 44, Nation.DEUTSCH);
+
+
+
 
         Apartment ap = new Apartment(120);
         Apartment ap1 = new Apartment(159);
         Apartment ap2 = new Apartment(220);
+        Apartment ap3 = new Apartment(123);
         ParkingPlace pp1 = new ParkingPlace(30);
         ParkingPlace pp2 = new ParkingPlace(35);
         Samochod_Miejski sm1 = new Samochod_Miejski(6, "Suzuki", "Swift", Paliwo.BENZYNA, 1000, true, "White");
+        Samochod_Terenowy st1=new Samochod_Terenowy(28,"Toyota","RAV4",Paliwo.DIESEL,2500,16);
+        Amfibia am1=new Amfibia(15,"UNIMAG","AM!",Paliwo.PRAD,150,true,true);
+        Thing t1=new Thing(1,"grabie");
+        Thing t2=new Thing(1,"lopata");
+        Thing t3=new Thing(3,"kosiarka");
+        Thing t4=new Thing(8,"betoniarka");
+
+        itemsGlobal.add(t1);
+        itemsGlobal.add(t2);
+        itemsGlobal.add(t3);
+        itemsGlobal.add(t4);
+
+        itemsGlobal.add(sm1);
+        itemsGlobal.add(st1);
+        itemsGlobal.add(am1);
 
 
         // tu automat ladowanie z pliku
@@ -45,6 +68,7 @@ public class Enviroment {
 
         personSet.add(p1);
         personSet.add(p2);
+        personSet.add(p3);
         //p1.addThingOrCar(sm1,pp1);
 
         estate.put(ap, null);
@@ -52,6 +76,7 @@ public class Enviroment {
         estate.put(ap2, null);
         estate.put(pp1, null);
         estate.put(pp2, null);
+        estate.put(ap3, null);
 
 
     }
@@ -79,19 +104,14 @@ public class Enviroment {
     public void run() {
 
 
-        Apartment ap3 = new Apartment(123);
-        Person p1 = new Person("Kamil", "Nowak", 44, Nation.DEUTSCH);
 
-
-        personSet.add(p1);
-        estate.put(ap3, p1);
-        System.out.println();
 
         Scanner scan = new Scanner(System.in);
         Person user = null;
         Person temPerson = null;
         Apartment apartment = null;
         ParkingPlace parkingPlace = null;
+        Item item=null;
 
         String choice = null;
 
@@ -148,7 +168,6 @@ public class Enviroment {
                     System.out.println(" nie podales odpowiedniej cyfry !");
                 }
             }
-            System.out.println(choice);
 
             switch (choice) {
 
@@ -465,7 +484,9 @@ public class Enviroment {
                 }
 
 
-                case "12" -> {              showOccupiedRooms(ParkingPlace.class,user);
+                case "12" -> {
+
+                    showOccupiedRooms(ParkingPlace.class,user);
 
                     wybor=wybor(scan);
                     for(Map.Entry<Room,Person>entry:estate.entrySet()){
@@ -486,11 +507,57 @@ public class Enviroment {
                         System.out.println(++licznik+". "+it);
                     }
 
+                    wybor=wybor(scan);
+
+                    for(Item it:itemsGlobal){
+                        ++licznik;
+                        licz=String.valueOf(licznik);
+                        if(wybor==licz){
+                            item=it;
+                        }
+                    }
+                    parkingPlace.getItems().add(item);
+
 
 //=========================================================================================================
                 }
 
                 case "13" -> {
+                    showOccupiedRooms(ParkingPlace.class,user);
+
+                    wybor=wybor(scan);
+                    for(Map.Entry<Room,Person>entry:estate.entrySet()){
+                        if((entry.getKey().equals(ParkingPlace.class))&&(entry.getValue()==user)){
+                            ++licznik;}
+
+                        licz=String.valueOf(licznik);
+
+                        if(licz.equals(wybor)){
+                            parkingPlace=(ParkingPlace) entry.getKey();
+                            break;
+                        }
+                    }
+                    licznik=0;
+
+                    //=======================================================================
+                    for(Item itpp:parkingPlace.getItems()){
+
+                        System.out.println(++licznik+". "+itpp);
+                    }
+
+                    wybor=wybor(scan);
+
+                    for(Item itpp:parkingPlace.getItems()){
+                        ++licznik;
+                        licz=String.valueOf(licznik);
+                        if(wybor==licz){
+                            item=itpp;
+                        }
+                    }
+                    parkingPlace.getItems().remove(item);
+
+
+//=========================================================================================================
                 }
                 case "14" -> {
 
