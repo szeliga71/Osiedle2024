@@ -23,6 +23,13 @@ public class Enviroment {
     private Set<Person> personSet;
     private Map<Room, Person> estate;
 
+    public Set<Item> getItemsGlobal() {
+        return itemsGlobal;
+    }
+
+    public void setItemsGlobal(Set<Item> itemsGlobal) {
+        this.itemsGlobal = itemsGlobal;
+    }
 
     private Set<Item> itemsGlobal;
 

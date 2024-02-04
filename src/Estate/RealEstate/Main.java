@@ -2,6 +2,9 @@ package Estate.RealEstate;
 
 import Estate.RealEstate.Technical.Enviroment;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -39,8 +42,11 @@ public class Main {
         // testowanie koniec
 
 
-
         Enviroment en = new Enviroment();
+        ExecutorService executorService= Executors.newFixedThreadPool(en.getEstate().size());
+        //executorService.submit(startRent());
+
+
 
 
        //en.getRoomSet().add(ap);
