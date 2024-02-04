@@ -6,6 +6,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Apartment extends Room {
+
+    private List<Person> personsInApartment;
+
+
+
+    public Apartment(int area) {
+        super.setArea(area);
+
+
+        personsInApartment=new ArrayList<>();
+
+
+    }
+
+    @Override
+    public String toString() {
+
+
+        return " Mieszkanie "+ super.toString();
+
+    }
+
+    public List<Person> getPersonsInApartment() {
+        return personsInApartment;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -24,25 +50,4 @@ public class Apartment extends Room {
         return result;
     }
 
-    private List<Person> personsInApartment;
-
-    public Apartment(int area) {
-        super.setArea(area);
-
-        personsInApartment=new ArrayList<>();
-
-
-    }
-
-    @Override
-    public String toString() {
-
-
-        return " Mieszkanie "+ super.toString();
-
-    }
-
-    public List<Person> getPersonsInApartment() {
-        return personsInApartment;
-    }
 }

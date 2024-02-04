@@ -10,7 +10,7 @@ public abstract class Room {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Room)) return false;
+        //if (!(o instanceof Room)) return false;
 
         Room room = (Room) o;
 
