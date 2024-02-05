@@ -2,8 +2,12 @@ package Estate.RealEstate;
 
 import Estate.RealEstate.Technical.Enviroment;
 
+import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
@@ -41,10 +45,35 @@ public class Main {
 
         // testowanie koniec
 
+        LocalDate[] endDate={LocalDate.now().plusDays(4)};
 
         Enviroment en = new Enviroment();
-        ExecutorService executorService= Executors.newFixedThreadPool(en.getEstate().size());
-        //executorService.submit(startRent());
+        ScheduledExecutorService scheduledExecutorService=Executors.newScheduledThreadPool(en.getEstate().size());
+                //Executors.newFixedThreadPool(en.getEstate().size());
+
+        final LocalDate[] presentDay={LocalDate.now()};
+
+        Runnable time =()->{
+        presentDay[0]=presentDay[0].plusDays(1);
+            System.out.println(" aktualna watkowa data "+presentDay[0]);};
+
+        Runnable check1=()->{
+            System.out.println(" tu bede sprawdzal terminy");
+            if(presentDay[0].isEqual(endDate[0])||(presentDay[0].isAfter(endDate[0]))){
+            boolean juz=true;
+
+            endDate[0]=null;
+            if(juz){
+                System.out.println(" koniec wynajmu");
+
+            }}
+        };
+
+
+
+        scheduledExecutorService.scheduleAtFixedRate(time,0,5, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleAtFixedRate(check1,0,10,TimeUnit.SECONDS);
+        //executorService.submit(()->startRent());
 
 
 
