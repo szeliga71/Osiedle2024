@@ -1,6 +1,7 @@
 package Estate.RealEstate.Rooms;
 
 import Estate.RealEstate.Person;
+import Estate.RealEstate.Technical.TechTime;
 
 import java.time.LocalDate;
 
@@ -30,30 +31,18 @@ public abstract class Room {
     private int area;
     private final UUID id;
 
-    private LocalDate dateOfRent;
-    private LocalDate dateOfLeave;
-
-    public LocalDate getDateOfRent() {
-        return dateOfRent;
-    }
-
-    public void setDateOfRent(LocalDate dateOfRent) {
-        this.dateOfRent = dateOfRent;
-    }
-
-    public LocalDate getDateOfLeave() {
-        return dateOfLeave;
-    }
-
-    public void setDateOfLeave(LocalDate dateOfLeave) {
-        this.dateOfLeave = dateOfLeave;
-    }
+    private final LocalDate[] endDate={LocalDate.now()};
 
     Person primaryTenant;
+    TechTime techTime;
+
 
     public Room() {
 
         this.id = UUID.randomUUID();
+        //this.endDate=new LocalDate[1];
+        //techTime=new TechTime(en);
+
 
     }
 
@@ -75,6 +64,19 @@ public abstract class Room {
 
     public void setPrimaryTenant(Person primaryTenant) {
         this.primaryTenant = primaryTenant;
+    }
+
+   // public void setEndDate(int rentalDays){
+     //   endDate[0]=LocalDate.now().plusDays(rentalDays);
+    //}
+
+
+    public LocalDate[] getEndDate(){
+        return endDate;
+    }
+    public LocalDate[] setEndDate(long daysOfRent){
+       // endDate[0]=techTime.currentTime[0].plusDays(daysOfRent);
+        return endDate;
     }
 
     @Override

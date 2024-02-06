@@ -14,6 +14,7 @@ import Estate.RealEstate.Rooms.Room;
 
 
 import java.time.LocalDate;
+import java.time.temporal.TemporalAmount;
 import java.util.*;
 
 
@@ -26,6 +27,7 @@ public class Enviroment {
     public Set<Item> getItemsGlobal() {
         return itemsGlobal;
     }
+    private final LocalDate[] currenTTTime = {LocalDate.now()};
 
     public void setItemsGlobal(Set<Item> itemsGlobal) {
         this.itemsGlobal = itemsGlobal;
@@ -34,12 +36,22 @@ public class Enviroment {
     private Set<Item> itemsGlobal;
 
 
+    TechTime techTime;
+    public LocalDate getCurrentTime() {
+        return currenTTTime[0];
+    }
+
     public Enviroment() {
 
 
         personSet = new HashSet<>();
         estate = new HashMap<>();
         itemsGlobal = new HashSet<>();
+
+        techTime=new TechTime(this);
+        techTime.timeRun(this);
+
+
 
 
 
@@ -272,11 +284,29 @@ public class Enviroment {
                                     if (entry.getKey().getId().equals(id)) {
                                         entry.setValue(user);
                                         entry.getKey().setPrimaryTenant(user);
-                                        entry.getKey().setDateOfRent(LocalDate.now());
-                                        entry.getKey().setDateOfLeave(LocalDate.now());
+
+                                        //dodac mechanizm podania wartosci dlugosci wynajmu
+                                        //entry.getKey().setEndDate();
+                                        //entry.getKey().setDateOfLeave(LocalDate.now());
+
+
+
                                         apartment = (Apartment) entry.getKey();
                                         apartment.getPersonsInApartment().add(entry.getKey().getPrimaryTenant());
 
+                                        //apartment.getEndDate()= LocalDate.now();
+
+                                        System.out.println(Arrays.toString(apartment.getEndDate()));
+
+
+                                        //apartment.setEndDate(5);
+                                        //public LocalDate[] setEndDate(long daysOfRent){
+                                            //entry.getKey().getEndDate()=techTime.currentTime[0].plus(new TemporalAmount;             // .plusDays(4);
+
+
+
+
+                                        System.out.println(Arrays.toString(apartment.getEndDate()));
 
                                     }
                                 }
@@ -322,8 +352,8 @@ public class Enviroment {
 
                                 if (entry.getKey().getId().equals(id)) {
                                     entry.setValue(null);
-                                    entry.getKey().setDateOfRent(null);
-                                    entry.getKey().setDateOfLeave(null);
+                                    //entry.getKey().setDateOfRent(null);
+                                    //entry.getKey().setDateOfLeave(null);
                                     apartment = (Apartment) entry.getKey();
                                     apartment.getPersonsInApartment().clear();
 
@@ -558,8 +588,8 @@ public class Enviroment {
                                 if (entry.getKey().getId().equals(id)) {
                                     entry.setValue(user);
                                     entry.getKey().setPrimaryTenant(user);
-                                    entry.getKey().setDateOfRent(LocalDate.now());
-                                    entry.getKey().setDateOfLeave(LocalDate.now());
+                                    //entry.getKey().setDateOfRent(LocalDate.now());
+                                    //entry.getKey().setDateOfLeave(LocalDate.now());
                                     parkingPlace = (ParkingPlace) entry.getKey();
 
                                 }
@@ -609,8 +639,8 @@ public class Enviroment {
                                 for (Map.Entry<Room, Person> entry : estate.entrySet()) {
                                     if (entry.getKey().getId().equals(id)) {
                                         entry.setValue(null);
-                                        entry.getKey().setDateOfRent(null);
-                                        entry.getKey().setDateOfLeave(null);
+                                        //entry.getKey().setDateOfRent(null);
+                                        //entry.getKey().setDateOfLeave(null);
                                         parkingPlace = (ParkingPlace) entry.getKey();
                                         itemsGlobal.addAll(new HashSet<>(parkingPlace.getItems()));
                                         parkingPlace.getItems().clear();
