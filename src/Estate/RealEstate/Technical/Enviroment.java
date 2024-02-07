@@ -14,32 +14,32 @@ import Estate.RealEstate.Rooms.Room;
 
 
 import java.time.LocalDate;
-import java.time.temporal.TemporalAmount;
+import java.time.chrono.ChronoLocalDate;
 import java.util.*;
 
 
 public class Enviroment {
 
+    TechTime techTime;
 
     private Set<Person> personSet;
     private Map<Room, Person> estate;
 
-    public Set<Item> getItemsGlobal() {
-        return itemsGlobal;
-    }
-    private final LocalDate[] currenTTTime = {LocalDate.now()};
 
-    public void setItemsGlobal(Set<Item> itemsGlobal) {
-        this.itemsGlobal = itemsGlobal;
-    }
+
+
+
+
+
 
     private Set<Item> itemsGlobal;
 
 
-    TechTime techTime;
-    public LocalDate getCurrentTime() {
-        return currenTTTime[0];
-    }
+
+
+
+
+
 
     public Enviroment() {
 
@@ -49,12 +49,6 @@ public class Enviroment {
         itemsGlobal = new HashSet<>();
 
         techTime=new TechTime(this);
-        techTime.timeRun(this);
-
-
-
-
-
 
 
 
@@ -107,17 +101,11 @@ public class Enviroment {
     }
 
 
-    public Map<Room, Person> getEstate() {
-        return estate;
-    }
-
-
-    public void setEstate(Map<Room, Person> estate) {
-        this.estate = estate;
-    }
 
 
     public void run() {
+
+        techTime.timeRun(this);
 
 
         Scanner scan = new Scanner(System.in);
@@ -285,6 +273,8 @@ public class Enviroment {
                                         entry.setValue(user);
                                         entry.getKey().setPrimaryTenant(user);
 
+                                        //entry.getKey().setEndDate(LocalDate.now());
+
                                         //dodac mechanizm podania wartosci dlugosci wynajmu
                                         //entry.getKey().setEndDate();
                                         //entry.getKey().setDateOfLeave(LocalDate.now());
@@ -294,8 +284,17 @@ public class Enviroment {
                                         apartment = (Apartment) entry.getKey();
                                         apartment.getPersonsInApartment().add(entry.getKey().getPrimaryTenant());
 
-                                        //apartment.getEndDate()= LocalDate.now();
 
+                                        System.out.println(Arrays.toString(apartment.getEndDate()));
+
+                                        LocalDate endOfRent=techTime.getCurrentTime()[0];
+                                        System.out.println(techTime.getCurrentTime()[0]);
+                                        endOfRent=endOfRent.plusDays(5);
+                                        System.out.println(" tymczasowa pow o 5 "+ endOfRent);
+
+                                        entry.getKey().setEndDate(endOfRent);
+
+                                        System.out.println("ponizej end Date pow o endof rent w met setEndDate");
                                         System.out.println(Arrays.toString(apartment.getEndDate()));
 
 
@@ -306,7 +305,7 @@ public class Enviroment {
 
 
 
-                                        System.out.println(Arrays.toString(apartment.getEndDate()));
+
 
                                     }
                                 }
@@ -888,6 +887,31 @@ public class Enviroment {
 
                 case "18" -> System.exit(0);
 
+                case "19"->{
+
+                    System.out.println("  sprawdzanie dat ");
+
+
+                    for (Map.Entry<Room, Person> entry : estate.entrySet()) {
+
+                        //entry.getKey().setEndDate(LocalDate.now());
+                        System.out.println(Arrays.toString(entry.getKey().getEndDate()));
+
+                        if(entry.getKey().getEndDate()!=null && entry.getKey().getEndDate()[0]!=null) {
+                            if (entry.getKey().getEndDate()[0].equals(LocalDate.now())) { //|| (entry.getKey().getEndDate()[0].isAfter(temp[0]))) {
+                                System.out.println("Ta nieruchomosc ma przekroczony czas wynajmu! " + entry.getKey());
+                            }
+                        }else{
+                            System.out.println(" nie ustawiono daty ");
+                        }
+
+
+
+                }
+
+                    System.out.println(" przeszlo po mapie");
+                }
+
 
                 default -> System.out.println(" prosze podac prawidlowa liczbe !");
 
@@ -930,8 +954,25 @@ public class Enviroment {
             return wybor;
         }
 
-        return wybor;}
+        return wybor;
+    }
 
+
+
+    public Map<Room, Person> getEstate() {
+        return estate;
+    }
+
+
+    public void setEstate(Map<Room, Person> estate) {
+        this.estate = estate;
+    }
+    public void setItemsGlobal(Set<Item> itemsGlobal) {
+        this.itemsGlobal = itemsGlobal;
+    }
+    public Set<Item> getItemsGlobal() {
+        return itemsGlobal;
+    }
 }
 
 

@@ -5,6 +5,7 @@ import Estate.RealEstate.Technical.TechTime;
 
 import java.time.LocalDate;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 public abstract class Room {
@@ -31,17 +32,17 @@ public abstract class Room {
     private int area;
     private final UUID id;
 
-    private final LocalDate[] endDate={LocalDate.now()};
+    private final LocalDate[] endDate;
 
     Person primaryTenant;
-    TechTime techTime;
+
 
 
     public Room() {
 
         this.id = UUID.randomUUID();
-        //this.endDate=new LocalDate[1];
-        //techTime=new TechTime(en);
+
+        endDate=new LocalDate[1];
 
 
     }
@@ -66,22 +67,19 @@ public abstract class Room {
         this.primaryTenant = primaryTenant;
     }
 
-   // public void setEndDate(int rentalDays){
-     //   endDate[0]=LocalDate.now().plusDays(rentalDays);
-    //}
 
 
     public LocalDate[] getEndDate(){
         return endDate;
     }
-    public LocalDate[] setEndDate(long daysOfRent){
-       // endDate[0]=techTime.currentTime[0].plusDays(daysOfRent);
+    public LocalDate[] setEndDate(LocalDate endT){
+       endDate[0]=endT;
         return endDate;
     }
 
     @Override
     public String toString() {
         return " o identyfikatorze " + id+" "+ " i  powierzchni "
-                 + area;
+                 + area + " "+ Arrays.toString(endDate);
     }
 }
