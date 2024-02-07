@@ -4,6 +4,7 @@ import Estate.RealEstate.Person;
 import Estate.RealEstate.Rooms.Room;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -26,9 +27,6 @@ public class TechTime {
 
     public void timeRun(Enviroment en) {
 
-        //final LocalDate[] currentTime = {LocalDate.now()};
-
-
         ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(en.getEstate().size());
 
         //Executors.newFixedThreadPool(en.getEstate().size());
@@ -38,7 +36,7 @@ public class TechTime {
 
         Runnable time = () -> {
             currentTime[0] = currentTime[0].plusDays(1);
-            System.out.println(" aktualna data " + currentTime[0]);
+
         };
 
 
@@ -46,25 +44,26 @@ public class TechTime {
         // tu sprawdzanie daty konca wynajmu
         Runnable check1 = () -> {
 
-            LocalDate[] temp=new LocalDate[1];
-            temp[0]=currentTime[0];
+            //LocalDate[] temp=new LocalDate[1];
+            //temp[0]=currentTime[0];
 
 
-            System.out.println(" data z watku sprawdzajacego  "+temp[0]);
+            //System.out.println(" data z watku sprawdzajacego  "+temp[0]);
 
             for (Map.Entry<Room, Person> entry : en.getEstate().entrySet()) {
 
                 if(entry.getKey().getEndDate()!=null&&entry.getKey().getEndDate()[0]!=null){
-                    System.out.println(" wlazlo do pierwszego ifa  ");
-                    System.out.println(entry.getKey().getEndDate()[0]);
-                    System.out.println(temp[0]);
-                    System.out.println(currentTime[0]);
-                if (entry.getKey().getEndDate()[0].equals(temp[0])){
-                    System.out.println(" dzisiaj konczy sie wynajem !!!");
+
+                if (entry.getKey().getEndDate()[0].equals(currentTime[0])){
+
+                    System.out.println(" dzisiaj koncz sie wynajem ");
                     }
-                    if(entry.getKey().getEndDate()[0].isAfter(temp[0])) {
-                   System.out.println("Ta nieruchomosc ma przekroczony czas wynajmu!!! " + entry.getKey());
+                    if(entry.getKey().getEndDate()[0].isBefore(currentTime[0])) {
+                        long daysBetween=0;
+                        daysBetween= ChronoUnit.DAYS.between(entry.getKey().getEndDate()[0],currentTime[0]);
+                        System.out.println(" jest juz "+daysBetween+ " dni po zakonczeniu terminu najmu !!!");
                 }
+
             }else{
                     System.out.println(" lokal jeszcze nie wynajety !!!");
                 }

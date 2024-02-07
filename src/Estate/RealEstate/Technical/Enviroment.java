@@ -268,43 +268,26 @@ public class Enviroment {
                                 id = apartmentOperationList.get(position - 1).getId();
 
 
+                                System.out.println(" Podaj ilosc dni , na ktore chcesz zawrzec umowe najmu.");
+                                int howManyDays=0;
+                                howManyDays=scan.nextInt();
+
+
+
                                 for (Map.Entry<Room, Person> entry : estate.entrySet()) {
                                     if (entry.getKey().getId().equals(id)) {
                                         entry.setValue(user);
                                         entry.getKey().setPrimaryTenant(user);
 
-                                        //entry.getKey().setEndDate(LocalDate.now());
-
-                                        //dodac mechanizm podania wartosci dlugosci wynajmu
-                                        //entry.getKey().setEndDate();
-                                        //entry.getKey().setDateOfLeave(LocalDate.now());
-
-
-
                                         apartment = (Apartment) entry.getKey();
                                         apartment.getPersonsInApartment().add(entry.getKey().getPrimaryTenant());
 
 
-                                        System.out.println(Arrays.toString(apartment.getEndDate()));
-
                                         LocalDate endOfRent=techTime.getCurrentTime()[0];
-                                        System.out.println(techTime.getCurrentTime()[0]);
-                                        endOfRent=endOfRent.plusDays(5);
-                                        System.out.println(" tymczasowa pow o 5 "+ endOfRent);
+
+                                        endOfRent=endOfRent.plusDays(howManyDays);
 
                                         entry.getKey().setEndDate(endOfRent);
-
-                                        System.out.println("ponizej end Date pow o endof rent w met setEndDate");
-                                        System.out.println(Arrays.toString(apartment.getEndDate()));
-
-
-                                        //apartment.setEndDate(5);
-                                        //public LocalDate[] setEndDate(long daysOfRent){
-                                            //entry.getKey().getEndDate()=techTime.currentTime[0].plus(new TemporalAmount;             // .plusDays(4);
-
-
-
-
 
 
                                     }
