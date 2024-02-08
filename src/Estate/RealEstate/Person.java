@@ -15,7 +15,7 @@ public class Person {
     private int pesel;
     private Nation nationality;
 
-    private File[]files;
+    private List <File>files;
     //private List<Room> rooms;
     //List<File> files;
     //List<Room>rooms;
@@ -26,7 +26,7 @@ public class Person {
         this.pesel=pesel;
         this.nationality = nationality;
 
-        files=new File[3];
+        files=new ArrayList<>();
         //rooms=new ArrayList<>();
     }
 
@@ -61,9 +61,10 @@ public class Person {
         return nationality;
     }
 
-    public File[] getFiles() {
+    public List<File> getFiles() {
         return files;
     }
+
 
    // public List<Room> getRooms() {
      //   return rooms;

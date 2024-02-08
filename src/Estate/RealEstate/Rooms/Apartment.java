@@ -3,11 +3,13 @@ package Estate.RealEstate.Rooms;
 import Estate.RealEstate.Person;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Apartment extends Room {
 
-    private List<Person> personsInApartment;
+    private Set<Person> personsInApartment;
 
 
 
@@ -15,7 +17,7 @@ public class Apartment extends Room {
         super.setArea(area);
 
 
-        personsInApartment=new ArrayList<>();
+        personsInApartment=new HashSet<>();
 
 
     }
@@ -28,7 +30,7 @@ public class Apartment extends Room {
 
     }
 
-    public List<Person> getPersonsInApartment() {
+    public Set<Person> getPersonsInApartment() {
         return personsInApartment;
     }
 

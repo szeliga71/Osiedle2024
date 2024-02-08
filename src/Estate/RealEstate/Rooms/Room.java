@@ -45,6 +45,8 @@ public abstract class Room {
         endDate=new LocalDate[1];
 
 
+
+
     }
 
     public UUID getId() {
