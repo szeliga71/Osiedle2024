@@ -15,6 +15,7 @@ import Estate.RealEstate.Rooms.Room;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Enviroment {
@@ -110,7 +111,8 @@ public class Enviroment {
         Person temPerson = null;
         Apartment apartment = null;
         //Room room=null;
-        UUID id=null;
+        final UUID[] id=new UUID[1];
+
         ParkingPlace parkingPlace = null;
         //Item item = null;
 
@@ -122,8 +124,9 @@ public class Enviroment {
 
         while (true) {
 
-            int pesel=0;
+            int pesel = 0;
             int licznik = 0;
+            int position=0;
 
 
             if (user == null) {
@@ -189,19 +192,18 @@ public class Enviroment {
                     System.out.println();
                     System.out.println("Zaloguj sie ,podajac nr pod ktorym widnieje interesujaca Cie pozycja  ");
 
-                    int position=choose(scan);
+                    position = choose(scan);
 
 
                     if ((position > -1) && (position < personOperationList.size() + 2)) {
                         pesel = personOperationList.get(position - 1).getPesel();
                     }
 
-                    for(Person p:personSet){
-                        if(p.getPesel()==pesel){
-                            user=p;
+                    for (Person p : personSet) {
+                        if (p.getPesel() == pesel) {
+                            user = p;
                         }
                     }
-
 
 
                     if (user == null) {
@@ -216,9 +218,9 @@ public class Enviroment {
                 }
 
 
-                case "2"->{
+                case "2" -> {
 
-                    System.out.println(" WSZYSTKIE WOLNE OBIEKTY W OBREBIE OSIEDLA"+'\n');
+                    System.out.println(" WSZYSTKIE WOLNE OBIEKTY W OBREBIE OSIEDLA" + '\n');
 
                     showVacantRooms();
 
@@ -236,8 +238,6 @@ public class Enviroment {
                 }
 
 
-
-
                 case "5" -> {
 
                     //usuniecie file
@@ -245,62 +245,42 @@ public class Enviroment {
                     System.out.println(" Jestes zalogowany jako " + user + '\n');
                     System.out.println(" lista wolnych mieszkan " + '\n');
 
-                    licznik=showVacantApartments(apartmentOperationList);
+                    if (showVacantApartments(apartmentOperationList) == 0) {
+                        System.out.println(" brak wolnych mieszkan !");
+                    } else {
+                        id[0] = apartmentOperationList.get(checkPositon(scan, apartmentOperationList) - 1).getId();
+                        System.out.println(" Podaj ilosc dni , na ktore chcesz zawrzec umowe najmu.");
+                        int howManyDays = 0;
+                        howManyDays = scan.nextInt();
+                        scan.nextLine();
 
 
+                        for (Map.Entry<Room, Person> entry : estate.entrySet()) {
+                            if (entry.getKey().getId().equals(id[0])) {
+                                entry.setValue(user);
+                                entry.getKey().setPrimaryTenant(user);
 
-                   /* for (Map.Entry<Room, Person> entry : estate.entrySet()) {
-                        if ((entry.getKey().getClass().equals(Apartment.class)) && (entry.getValue() == null)) {
-                            apartmentOperationList.add((Apartment) entry.getKey());
+                                apartment = (Apartment) entry.getKey();
+                                apartment.getPersonsInApartment().add(entry.getKey().getPrimaryTenant());
+
+
+                                LocalDate endOfRent = techTime.getCurrentTime()[0];
+
+                                endOfRent = endOfRent.plusDays(howManyDays);
+
+                                entry.getKey().setEndDate(endOfRent);
+
+
+                            }
                         }
                     }
 
-                    for (Apartment a : apartmentOperationList) {
-                        System.out.println(++licznik + ". " + a);
-                    }*/
+                   apartment=apartmentOperationList.stream().filter(apartment1 -> apartment1.getId().equals(id[0])).toList().getFirst();
 
-                    if(licznik==0){
-                        System.out.println(" brak wolnych mieszkan !");
-                    }else{
-                    int position = choose(scan);
-                        if ((position < 0) || (position > apartmentOperationList.size())) {
-                            System.out.println(" podaj prawidlowa wartosc !");
-                        } else {
-
-                            if ((position > -1) && (position < apartmentOperationList.size() + 2)) {
-                                id = apartmentOperationList.get(position - 1).getId();
-
-
-                                System.out.println(" Podaj ilosc dni , na ktore chcesz zawrzec umowe najmu.");
-                                int howManyDays=0;
-                                howManyDays=scan.nextInt();
+                        System.out.println(user + " wynaja mieszkanie " + apartment);
 
 
 
-                                for (Map.Entry<Room, Person> entry : estate.entrySet()) {
-                                    if (entry.getKey().getId().equals(id)) {
-                                        entry.setValue(user);
-                                        entry.getKey().setPrimaryTenant(user);
-
-                                        apartment = (Apartment) entry.getKey();
-                                        apartment.getPersonsInApartment().add(entry.getKey().getPrimaryTenant());
-
-
-                                        LocalDate endOfRent=techTime.getCurrentTime()[0];
-
-                                        endOfRent=endOfRent.plusDays(howManyDays);
-
-                                        entry.getKey().setEndDate(endOfRent);
-
-
-                                    }
-                                }
-                                System.out.println(user + " wynaja mieszkanie " + apartmentOperationList.get(position - 1));
-                            }
-
-
-                        }
-                }
                     apartmentOperationList.clear();
                 }
 
@@ -311,50 +291,27 @@ public class Enviroment {
 
                     System.out.println(" Zwolnij mieszkanie " + '\n' + "Jestes zalogowany jako : " + user);
 
-
-                    /*for (Map.Entry<Room, Person> entry : estate.entrySet()) {
-                        if ((entry.getKey().getClass().equals(Apartment.class)) && (entry.getValue() == user)) {
-                            apartmentOperationList.add((Apartment) entry.getKey());
-                        }
-                    }
-
-                    for (Apartment a : apartmentOperationList) {
-                        System.out.println(++licznik + ". " + a);
-                    }*/
-
-                    licznik=showUserApartments(apartmentOperationList,user);
-
-                    if (licznik == 0) {
-                        System.out.println(" nie masz jeszcze wynajetego mieszkania !");
+                    if (showUserApartments(apartmentOperationList,user) == 0) {
+                        System.out.println(" brak wolnych mieszkan !");
                     } else {
+                        id[0] = apartmentOperationList.get(checkPositon(scan, apartmentOperationList) - 1).getId();
+                        for (Map.Entry<Room, Person> entry : estate.entrySet()) {
 
-                        int position = choose(scan);
-
-                        if ((position < 0) || (position > apartmentOperationList.size())) {
-                            System.out.println(" podaj prawidlowa wartosc !");
-                        } else {
-                            if ((position > -1) && (position < apartmentOperationList.size() + 2)) {
-                                id = apartmentOperationList.get(position - 1).getId();
-                            }
-
-                            for (Map.Entry<Room, Person> entry : estate.entrySet()) {
-
-                                if (entry.getKey().getId().equals(id)) {
+                                if (entry.getKey().getId().equals(id[0])) {
                                     entry.setValue(null);
-                                    //entry.getKey().setDateOfRent(null);
-                                    //entry.getKey().setDateOfLeave(null);
                                     apartment = (Apartment) entry.getKey();
                                     apartment.getPersonsInApartment().clear();
 
                                 }
                             }
-                            System.out.println(user + " zwolnil mieszkanie " + apartmentOperationList.get(position - 1));
-                        }
-                    }
+                        apartment=apartmentOperationList.stream().filter(apartment1 -> apartment1.getId().equals(id[0])).toList().getFirst();
 
-                        apartmentOperationList.clear();
+                        System.out.println(user + " zwolnil mieszkanie " + apartment);
 
                     }
+                    apartmentOperationList.clear();
+
+                }
 
                     case "7" -> {
 
@@ -362,29 +319,14 @@ public class Enviroment {
 
                         System.out.println(" wskaz mieszkanie z ktorego chcesz pokazac lokatorow !");
 
-                        /*for (Map.Entry<Room, Person> entry : estate.entrySet()) {
-                            if ((entry.getKey().getClass() == Apartment.class) && (entry.getValue() == user)) {
-                                System.out.println(++licznik + ". " + entry.getKey());
-                                apartmentOperationList.add((Apartment) entry.getKey());
-                            }
-                        }*/
-                        licznik=showUserApartments(apartmentOperationList,user);
-
-                        if (licznik == 0) {
-                            System.out.println(" nie masz jeszcze wynajetego mieszkania !");
+                        if (showUserApartments(apartmentOperationList,user) == 0) {
+                            System.out.println(" brak wolnych mieszkan !");
                         } else {
+                            id[0] = apartmentOperationList.get(checkPositon(scan, apartmentOperationList) - 1).getId();
 
-                            int position = choose(scan);
-
-                            if ((position < 0) || (position > apartmentOperationList.size())) {
-                                System.out.println(" podaj prawidlowa wartosc !");
-                            } else {
-                                if ((position > -1) && (position < apartmentOperationList.size() + 2)) {
-                                    id = apartmentOperationList.get(position - 1).getId();
-                                }
 
                                 for (Map.Entry<Room, Person> entry : estate.entrySet()) {
-                                    if (entry.getKey().getId().equals(id)) {
+                                    if (entry.getKey().getId().equals(id[0])) {
                                         apartment = (Apartment) entry.getKey();
                                     }
                                 }
@@ -392,12 +334,8 @@ public class Enviroment {
                                 for (Person p : apartment.getPersonsInApartment()) {
                                     System.out.println(++licznik + ". " + p);
                                 }
-
-
-
-
                             }
-                        }
+
                         apartment = null;
                         apartmentOperationList.clear();
                     }
@@ -414,24 +352,27 @@ public class Enviroment {
                             apartmentOperationList.add((Apartment) entry.getKey());
                         }
                     }*/
-
-                    licznik=showUserApartments(apartmentOperationList,user);
+                    if (showUserApartments(apartmentOperationList,user) == 0) {
+                        System.out.println(" brak wolnych mieszkan !");
+                    } else {
+                        id[0] = apartmentOperationList.get(checkPositon(scan, apartmentOperationList) - 1).getId();
+                   /* licznik=showUserApartments(apartmentOperationList,user);
 
                     if(licznik==0){
                         System.out.println(" nie masz jeszcze wynajetych mieszkan !");
                     }else {
-                        int position = choose(scan);
+                        position = choose(scan);
 
                         if ((position < 0) || (position > apartmentOperationList.size())) {
                             System.out.println(" podaj prawidlowa wartosc !");
                         } else {
 
                             if ((position > -1) && (position < apartmentOperationList.size() + 2)) {
-                                id = apartmentOperationList.get(position - 1).getId();
-                            }
+                                id[0] = apartmentOperationList.get(position - 1).getId();
+                            }*/
 
                             for (Map.Entry<Room, Person> entry : estate.entrySet()) {
-                                if (entry.getKey().getId().equals(id)) {
+                                if (entry.getKey().getId().equals(id[0])) {
 
                                     apartment = (Apartment) entry.getKey();
                                 }
@@ -467,7 +408,7 @@ public class Enviroment {
                                 System.out.println(++licznik + ". " + p);
                             }
                         }
-                    }
+
 
 
                     apartment=null;
@@ -498,14 +439,14 @@ public class Enviroment {
 
                         System.out.println(" nie masz jeszcze wynajetych mieszkan !");
                     }else {
-                        int position = choose(scan);
+                        position = choose(scan);
 
                         if ((position < 0) || (position > apartmentOperationList.size())) {
                             System.out.println(" podaj prawidlowa wartosc !");
                         } else {
 
                             if ((position > -1) && (position < apartmentOperationList.size() + 2)) {
-                                id = apartmentOperationList.get(position - 1).getId();
+                                id[0] = apartmentOperationList.get(position - 1).getId();
                             }
 
                             for (Map.Entry<Room, Person> entry : estate.entrySet()) {
@@ -572,7 +513,7 @@ public class Enviroment {
 
                     } else {
 
-                        int position = choose(scan);
+                        position = choose(scan);
 
                         if ((position < 0) || (position > parkingOperationList.size())) {
                             System.out.println(" podaj prawidlowa wartosc !");
@@ -580,7 +521,7 @@ public class Enviroment {
 
 
                             if ((position > -1) && (position < parkingOperationList.size() + 2)) {
-                                id = parkingOperationList.get(position - 1).getId();
+                                id[0] = parkingOperationList.get(position - 1).getId();
                             }
 
 
@@ -626,7 +567,7 @@ public class Enviroment {
 
                     } else {
 
-                        int position = choose(scan);
+                        position = choose(scan);
 
                         if ((position < 0) || (position > parkingOperationList.size())) {
                             System.out.println(" podaj prawidlowa wartosc !");
@@ -634,7 +575,7 @@ public class Enviroment {
 
 
                             if ((position > -1) && (position < parkingOperationList.size() + 2)) {
-                                id = parkingOperationList.get(position - 1).getId();
+                                id[0] = parkingOperationList.get(position - 1).getId();
 
 
                                 for (Map.Entry<Room, Person> entry : estate.entrySet()) {
@@ -678,14 +619,14 @@ public class Enviroment {
 
                     } else {
 
-                        int position = choose(scan);
+                        position = choose(scan);
 
                         if ((position < 0) || (position > parkingOperationList.size())) {
                             System.out.println(" podaj prawidlowa wartosc !");
                         } else {
 
                             if ((position > -1) && (position < parkingOperationList.size() + 2)) {
-                                id = parkingOperationList.get(position - 1).getId();
+                                id[0] = parkingOperationList.get(position - 1).getId();
                             }
 
                             for (Map.Entry<Room, Person> entry : estate.entrySet()) {
@@ -727,13 +668,13 @@ public class Enviroment {
                             if (licznik == 0) {
                                 System.out.println(" nie masz jeszcze wynajetego garazu !");
                             } else {
-                                int position = choose(scan);
+                                position = choose(scan);
 
                                 if ((position < 0) || (position > itemOperationList.size())) {
                                     System.out.println(" podaj prawidlowa wartosc !");
                                 } else {
                                     if ((position > -1) && (position < parkingOperationList.size() + 2)) {
-                                        id = parkingOperationList.get(position - 1).getId();
+                                        id[0] = parkingOperationList.get(position - 1).getId();
                                     }
 
                                     for (Map.Entry<Room, Person> entry : estate.entrySet()) {
@@ -759,10 +700,10 @@ public class Enviroment {
                                     } else {
 
                                         if ((position > -1) && (position < itemOperationList.size() + 2)) {
-                                            id = itemOperationList.get(position - 1).getItemId();
+                                            id[0] = itemOperationList.get(position - 1).getItemId();
                                         }
 
-                                        UUID idItemTemp = id;
+                                        UUID idItemTemp = id[0];
 
 
                                         Optional<Item> foundedItem = itemsGlobal.stream().filter(it -> it.getItemId() == idItemTemp).findFirst();
@@ -810,14 +751,14 @@ public class Enviroment {
                     if (licznik == 0) {
                         System.out.println(" nie masz jeszcze wynajetego garazu !");
                     } else {
-                        int position = choose(scan);
+                        position = choose(scan);
 
                         if ((position < 0) || (position > parkingOperationList.size())) {
                             System.out.println(" podaj prawidlowa wartosc !");
                         } else {
 
                             if ((position > -1) && (position < parkingOperationList.size() + 2)) {
-                                id = parkingOperationList.get(position - 1).getId();
+                                id[0] = parkingOperationList.get(position - 1).getId();
                             }
 
                             for (Map.Entry<Room, Person> entry : estate.entrySet()) {
@@ -835,10 +776,10 @@ public class Enviroment {
                             position = choose(scan);
 
                             if ((position > -1) && (position < parkingPlace.getItems().size() + 2)) {
-                                id = parkingPlace.getItems().get(position - 1).getItemId();
+                                id[0] = parkingPlace.getItems().get(position - 1).getItemId();
                             }
 
-                            UUID itemIdTemp = id;
+                            UUID itemIdTemp = id[0];
 
                             Optional<Item> foundedItem = parkingPlace.getItems().stream().filter(itemx -> itemx.getItemId() == itemIdTemp).findFirst();
 
@@ -943,23 +884,22 @@ public class Enviroment {
         }
     }
 
-    UUID choosePositon(int licznik,Scanner scan,List<Apartment>apartmentTemporaryList){
-        UUID id=null;
-        if (licznik == 0) {
-            System.out.println(" nie masz jeszcze wynajetego mieszkania !");
-        } else {
+    int checkPositon(Scanner scan,List<Apartment>apartmentTemporaryList){
 
-            int position = choose(scan);
 
-            if ((position < 0) || (position > apartmentTemporaryList.size())) {
+        int position=0;
+        int pos = choose(scan);
+
+            if ((pos < 0) || (pos > apartmentTemporaryList.size())) {
                 System.out.println(" podaj prawidlowa wartosc !");
+                System.exit(55);
             } else {
-                if ((position > -1) && (position < apartmentTemporaryList.size() + 2)) {
-                    id = apartmentTemporaryList.get(position - 1).getId();
+
+                if (pos < apartmentTemporaryList.size() + 2) {
+                    position= pos;
                 }
-    }
-        }
-    return id;}
+            }
+    return position;}
 
     int showVacantParkingPlace(List<ParkingPlace>parkingPlaceTemporaryList){
         int licznik=0;
