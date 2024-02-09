@@ -1,7 +1,12 @@
 package Estate.RealEstate;
 
 import Estate.RealEstate.Items.Item;
+import Estate.RealEstate.Rooms.Apartment;
+import Estate.RealEstate.Rooms.ParkingPlace;
 import Estate.RealEstate.Rooms.Room;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Person {
 
@@ -10,10 +15,8 @@ public class Person {
     private int pesel;
     private Nation nationality;
 
-    File[]files;
-    Room[]rooms;
-    //List<File> files;
-    //List<Room>rooms;
+    private List <File>files;
+
 
     public Person(String name, String surname, int pesel, Nation nationality) {
         this.name = name;
@@ -21,13 +24,17 @@ public class Person {
         this.pesel=pesel;
         this.nationality = nationality;
 
-        files=new File[3];
-        rooms=new Room[5];
+        files=new ArrayList<>();
+        //rooms=new ArrayList<>();
     }
 
-    public void addPerson(Person person){}
+    public void addPerson(Person person, Apartment apartment){
+        apartment.getPersonsInApartment().add(person);
+    }
 
-    public void addThingOrCar(Item item){}
+    public void addThingOrCar(Item item, ParkingPlace parkingPlace){
+        parkingPlace.getItems().add(item);
+    }
 
     @Override
     public String toString() {
@@ -51,4 +58,10 @@ public class Person {
     public Nation getNationality() {
         return nationality;
     }
+
+    public List<File> getFiles() {
+        return files;
+    }
+
+
 }
