@@ -64,7 +64,7 @@ public class TechTime {
                         //======================do sprawdzenia file
 
 
-                        daysBetween = ChronoUnit.DAYS.between(entry.getKey().getEndDate()[0], currentTime[0]);
+                        daysBetween = Chronounit.DAYS.between(entry.getKey().getEndDate()[0], currentTime[0]);
 
 
                         //entry.getKey().getEndDate()[0] = null;

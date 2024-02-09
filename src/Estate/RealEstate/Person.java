@@ -16,9 +16,7 @@ public class Person {
     private Nation nationality;
 
     private List <File>files;
-    //private List<Room> rooms;
-    //List<File> files;
-    //List<Room>rooms;
+
 
     public Person(String name, String surname, int pesel, Nation nationality) {
         this.name = name;
@@ -64,11 +62,6 @@ public class Person {
     public List<File> getFiles() {
         return files;
     }
-
-
-   // public List<Room> getRooms() {
-     //   return rooms;
-    //}
 
 
 }
